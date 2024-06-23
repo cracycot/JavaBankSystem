@@ -1,8 +1,6 @@
 package entites.bankAccounts;
 
-import entites.User;
-
-public class DebitAccount extends BankAccount {
+public class DepositAccount extends BankAccount{
     private float interestBalance;
 
     public float getInterestBalance() {
@@ -12,8 +10,9 @@ public class DebitAccount extends BankAccount {
     public void setInterestBalance(float interestBalance) {
         this.interestBalance = interestBalance;
     }
+
     @Override
-    public void updateSum() {
+    void updateSum() {
         balance += (interestBalance / 365)*balance;
     }
 }

@@ -15,6 +15,10 @@ public class TransferMoney extends Transaction {
     }
     @Override
     public void cancelTransaction() {
-
+        if (!canceled) {
+            AccountFirst.addBalance(operationSum);
+            AccountSecond.addBalance(-operationSum);
+            canceled = true;
+        }
     }
 }
