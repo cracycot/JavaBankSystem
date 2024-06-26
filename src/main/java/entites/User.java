@@ -4,36 +4,41 @@ package entites;
 
 public class User {
     private static int counterId = 0;
-    private boolean access = false;
     private int id;
+    private boolean access = false;
     private String name;
     private String lastName;
     private String address;
     private String numberPassport;
-    private UserParams params;
 
     private void updateAccess() {
         access = !(address.equals("") || numberPassport.equals(""));
     }
 
-    public void User(UserParams params) {
-        this.name = params.getName();
-        this.lastName = params.getLastName();
-        this.address = params.getAddress();
-        this.numberPassport = params.getNumberPassport();
-        this.params = params;
-        id = counterId;
-        counterId += 1;
-        updateAccess();
-    }
+    public static class Builder {
+        public static  User user;
 
-    public void setAddress(String address) {
-        this.address = address;
-        updateAccess();
-    }
+        public void Builder(String name, String lastName)  {
+            user = new User();
+            user.id = counterId;
+            counterId += 1;
+            user.name = name;
+            user.lastName = lastName;
+        }
 
-    public void setNumberPassport(String numberPassport) {
-        this.numberPassport = numberPassport;
-        updateAccess();
+        public Builder addres(String address) {
+            user.address = address;
+            return this;
+        }
+
+        public Builder numberPassport(String numberPassport) {
+            user.numberPassport = numberPassport;
+            return this; 
+        }
+
+        public User build() {
+            return user;
+        }
+
     }
 }
