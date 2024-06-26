@@ -14,21 +14,25 @@ public abstract class BankAccount {
    protected int idAccount;
    protected int idClient;
    protected float balance;
-
-//   private User owner;
+   protected float commissionAmount;
+   protected float interestBalance;
 
    protected HashMap<Integer, Transaction> transactions;
 
-   public void BankAccount (int idClient) {
+   public void BankAccount(int idClient) {
       idAccount = counterIdAccount;
       counterIdAccount += 1;
+      this.balance = 0;
+      this.commissionAmount = 0;
       this.idClient = idClient;
    }
-   public void addMoney(float amount) {
+
+   public void addMoney(float amount) { // add money используется как функция отмены
       AddMoney addBalance = new AddMoney();
       addBalance.addMoney(this, amount);
       transactions.put(addBalance.getId(), addBalance);
    }
+
    public void withdrawMoney(float amount) throws InsufficientFundsException {
       if (amount <= balance) {
          WithdrawMoney withdrawBalance = new WithdrawMoney();
@@ -37,6 +41,7 @@ public abstract class BankAccount {
          balance -= amount;
       } else throw new InsufficientFundsException();
    }
+
    public void transferMoney(float amount, BankAccount secondBank) throws InsufficientFundsException {
       if (amount <= balance) {
          TransferMoney transferBalance = new TransferMoney();
@@ -45,11 +50,20 @@ public abstract class BankAccount {
          balance -= amount;
       } else throw new InsufficientFundsException();
    }
+
    public float getBalance() {
       return balance;
    }
 
    public void addBalance(float balance) { this.balance += balance; }
+
+   public float getInterestBalance() {
+      return interestBalance;
+   }
+
+   public void setInterestBalance(float interestBalance) {
+      this.interestBalance = interestBalance;
+   }
 
    public int getIdClient() {
       return idClient;
@@ -59,6 +73,14 @@ public abstract class BankAccount {
       this.idClient = idClient;
    }
 
-   abstract void updateSum();
+   public void addCommision() {
+      balance += commissionAmount;
+   }
+
+   public Transaction getTransaction(int id) {
+      return transactions.get(id);
+   }
+
+   public abstract void updateCommissionAmount(int days);
 
 }

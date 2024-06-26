@@ -36,4 +36,28 @@ public class Bank {
     public Float getInterestOnDeposit() {
         return interestOnDeposit;
     }
+    
+    public void interestUpdate(int days) {
+        for (Integer idAccount : bankAccountHashMap.keySet()) {
+            BankAccount account = bankAccountHashMap.get(idAccount);
+            account.updateCommissionAmount(days);
+        }
+    }
+    public void interestUpdate() {
+        for (Integer idAccount : bankAccountHashMap.keySet()) {
+            BankAccount account = bankAccountHashMap.get(idAccount);
+            account.updateCommissionAmount(1);
+        }
+    }
+    public void addCommision() {
+        for (Integer idAccount : bankAccountHashMap.keySet()) {
+            BankAccount account = bankAccountHashMap.get(idAccount);
+            account.addCommision();
+        }
+    }
+    public void cancelTransaction(int idBankAccount, int idTransaction) {
+        BankAccount bankAccount = bankAccountHashMap.get(idBankAccount);
+        Transaction transaction = bankAccount.getTransaction(idTransaction);
+        transaction.cancelTransaction();
+    }
 }

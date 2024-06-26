@@ -16,5 +16,5 @@ public abstract class Transaction {
     public int getId() {
         return id;
     }
-    abstract void cancelTransaction();
+    public abstract void cancelTransaction();
 }

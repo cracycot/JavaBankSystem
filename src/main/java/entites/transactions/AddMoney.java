@@ -11,7 +11,7 @@ public class AddMoney extends Transaction {
         account.addBalance(amount);
     }
     @Override
-    void cancelTransaction() {
+    public void cancelTransaction() {
         if (!canceled) {
             account.addBalance(-operationSum);
             canceled = true;

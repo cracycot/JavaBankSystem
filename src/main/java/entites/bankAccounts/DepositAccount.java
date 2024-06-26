@@ -1,18 +1,16 @@
 package entites.bankAccounts;
 
 public class DepositAccount extends BankAccount{
-    private float interestBalance;
-
-    public float getInterestBalance() {
-        return interestBalance;
-    }
-
-    public void setInterestBalance(float interestBalance) {
-        this.interestBalance = interestBalance;
-    }
 
     @Override
-    void updateSum() {
-        balance += (interestBalance / 365)*balance;
+    public void updateCommissionAmount(int days) {
+        float percent = interestBalance;
+        if (balance >= 50000) {
+            percent += 0.5F;
+            if (balance >= 100000) {
+                percent += 0.5F;
+            }
+        }
+        commissionAmount += (percent / 365) * balance * days;
     }
 }

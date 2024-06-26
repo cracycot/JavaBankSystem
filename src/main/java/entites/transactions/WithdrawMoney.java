@@ -12,7 +12,7 @@ public class WithdrawMoney extends Transaction {
     }
 
     @Override
-    void cancelTransaction() {
+    public void cancelTransaction() {
         if (!canceled) {
             account.addBalance(operationSum);
             canceled = true;
