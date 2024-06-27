@@ -67,17 +67,17 @@ public class Bank {
         transaction.cancelTransaction();
     }
     public void createDebitAccount(int userId) {
-        DebitAccount debitAccount = new DebitAccount(userId);
+        DebitAccount debitAccount = new DebitAccount(userId, maxAmountBlocked);
         bankAccountHashMap.put(debitAccount.getIdClient(), debitAccount);
     }
 
     public void createCreditAccount(int userId) {
-        CreditAccount creditAccount = new CreditAccount(userId, commission);
+        CreditAccount creditAccount = new CreditAccount(userId, maxAmountBlocked, commission);
         bankAccountHashMap.put(creditAccount.getIdClient(), creditAccount);
     }
 
     public void createDepositAccount(int userId) {
-        DepositAccount depositAccount = new DepositAccount(userId);
+        DepositAccount depositAccount = new DepositAccount(userId, maxAmountBlocked);
         bankAccountHashMap.put(depositAccount.getIdClient(), depositAccount);
     }
 }

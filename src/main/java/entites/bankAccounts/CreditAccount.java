@@ -8,8 +8,8 @@ public class CreditAccount extends BankAccount {
 
     private float creditLimit;
 
-    public CreditAccount(int idClient, float creditLimit) {
-        super(idClient);
+    public CreditAccount(int idClient, float maxAmountBlocked,  float creditLimit) {
+        super(idClient, maxAmountBlocked);
         this.creditLimit = creditLimit;
     }
 

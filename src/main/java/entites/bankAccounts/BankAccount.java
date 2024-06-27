@@ -21,13 +21,13 @@ public abstract class BankAccount {
    protected float maxAmountBlocked;
    protected HashMap<Integer, Transaction> transactions;
 
-   public BankAccount(int idClient) {
+   public BankAccount(int idClient, float maxAmountBlocked) {
       isBlocked = true;
       idAccount = counterIdAccount;
       counterIdAccount += 1;
       this.balance = 0;
       this.commissionAmount = 0;
-      this.maxAmountBlocked = 0;
+      this.maxAmountBlocked = maxAmountBlocked;
       this.idClient = idClient;
    }
 

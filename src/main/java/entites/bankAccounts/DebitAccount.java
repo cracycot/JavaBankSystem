@@ -3,8 +3,8 @@ package entites.bankAccounts;
 import entites.User;
 
 public class DebitAccount extends BankAccount {
-    public DebitAccount(int idClient) {
-        super(idClient);
+    public DebitAccount(int idClient, float maxAmountBlocked) {
+        super(idClient, maxAmountBlocked);
     }
 
     @Override
