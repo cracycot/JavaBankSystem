@@ -2,6 +2,11 @@ package entites.bankAccounts;
 
 public class DepositAccount extends BankAccount{
 
+
+    public DepositAccount(int idClient) {
+        super(idClient);
+    }
+
     @Override
     public void updateCommissionAmount(int days) {
         float percent = interestBalance;

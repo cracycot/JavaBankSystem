@@ -1,20 +1,26 @@
 package entites;
 
 import entites.bankAccounts.BankAccount;
+import entites.bankAccounts.CreditAccount;
+import entites.bankAccounts.DebitAccount;
+import entites.bankAccounts.DepositAccount;
 import entites.transactions.Transaction;
 
 import java.util.HashMap;
 
 public class Bank {
     private String name;
-    private Float commission;
-    private Float interestOnDeposit;
+    private float commission;
+    private float interestOnDeposit;
+    private float maxAmountBlocked;
+
 
     private HashMap<Integer, BankAccount> bankAccountHashMap;
-    public Bank(String name, Float commission, Float interestOnDeposit) {
+    public Bank(String name, float commission, float interestOnDeposit, float maxAmountBlocked) {
         this.name = name;
         this.commission = commission;
         this.interestOnDeposit = interestOnDeposit;
+        this.maxAmountBlocked = maxAmountBlocked;
     }
 
     public BankAccount getBankAccountById (int idBankAccount) {
@@ -59,5 +65,19 @@ public class Bank {
         BankAccount bankAccount = bankAccountHashMap.get(idBankAccount);
         Transaction transaction = bankAccount.getTransaction(idTransaction);
         transaction.cancelTransaction();
+    }
+    public void createDebitAccount(int userId) {
+        DebitAccount debitAccount = new DebitAccount(userId);
+        bankAccountHashMap.put(debitAccount.getIdClient(), debitAccount);
+    }
+
+    public void createCreditAccount(int userId) {
+        CreditAccount creditAccount = new CreditAccount(userId, commission);
+        bankAccountHashMap.put(creditAccount.getIdClient(), creditAccount);
+    }
+
+    public void createDepositAccount(int userId) {
+        DepositAccount depositAccount = new DepositAccount(userId);
+        bankAccountHashMap.put(depositAccount.getIdClient(), depositAccount);
     }
 }
