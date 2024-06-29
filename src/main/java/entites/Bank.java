@@ -29,10 +29,22 @@ public class Bank {
 
     public void setCommission(Float commission) {
         this.commission = commission;
+        for (int key : bankAccountHashMap.keySet()) {
+            BankAccount bankAccount = bankAccountHashMap.get(key);
+            if (bankAccount instanceof CreditAccount) {
+                bankAccount.setInterestBalance(commission);
+            }
+        }
     }
 
     public void setInterestOnDeposit(Float interestOnDeposit) {
         this.interestOnDeposit = interestOnDeposit;
+        for (int key : bankAccountHashMap.keySet()) {
+            BankAccount bankAccount = bankAccountHashMap.get(key);
+            if (!(bankAccount instanceof CreditAccount)) {
+                bankAccount.setInterestBalance(interestOnDeposit);
+            }
+        }
     }
 
     public Float getCommission() {

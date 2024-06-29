@@ -6,7 +6,7 @@ import entites.transactions.Transaction;
 public class TransferMoney extends Transaction {
     private BankAccount AccountFirst;
     private BankAccount AccountSecond;
-    public void transferMoney(BankAccount AccountFirst, BankAccount AccountSecond, Float amount) {
+    public void transferMoney(BankAccount AccountFirst, BankAccount AccountSecond, float amount) {
         this.operationSum = amount;
         this.AccountFirst = AccountFirst;
         this.AccountSecond = AccountSecond;

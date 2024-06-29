@@ -30,7 +30,7 @@ public class User {
     public static class Builder {
         public static  User user;
 
-        public void Builder(String name, String lastName)  {
+        public  Builder(String name, String lastName)  {
             user = new User();
             user.id = counterId;
             user.access = false;
@@ -73,4 +73,7 @@ public class User {
         bank.createDepositAccount(id);
     }
 
+    public int getId() {
+        return id;
+    }
 }
