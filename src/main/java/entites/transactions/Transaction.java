@@ -8,6 +8,11 @@ public abstract class Transaction {
     private int id;
 
     protected boolean canceled = false;
+
+    public float getOperationSum() {
+        return operationSum;
+    }
+
     public Transaction() {
         id = counterId;
         counterId += 1;

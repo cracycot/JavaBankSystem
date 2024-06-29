@@ -12,19 +12,21 @@ import java.util.concurrent.TimeUnit;
 
 public class Facade {
     MainBank mainBank;
-    private HashMap<Integer, User> userHashMap;
+    private HashMap<Integer, User> userHashMap = new HashMap<>();
     public static final Facade facade = new Facade();
 
     private Facade() {
 
     }
+
     public void startTimer() {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
             mainBank.interestUpdate();
         }, 0, 10, TimeUnit.SECONDS);
     }
-    public void createUser() {
+
+    public int createUser() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Создание пользователя");
         System.out.println("Введите имя");
@@ -45,11 +47,16 @@ public class Facade {
             user = new User.Builder(name,lastName).build();
         }
         userHashMap.put(user.getId(), user);
+        return user.getId();
     }
-    public void createAccount(int userId) throws BankNotFoundException {
-        Scanner scanner = new Scanner(System.in);
-        User user = userHashMap.get(userId);
+
+    public void createAccount() throws BankNotFoundException {
         System.out.println("Создание счета");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите Id владельца");
+        int userId = scanner.nextInt();
+        scanner.nextLine();
+        User user = userHashMap.get(userId);
         System.out.println("Введите название банка");
         String bankName = scanner.nextLine();
         System.out.println("Введите 1 - дебитовый счет; 2 - кредитный счет; 3 - депозитный счет");
@@ -65,9 +72,9 @@ public class Facade {
                 user.createDepositAccount(bankName);
         }
     }
-    public void madeTransaction (int userId) throws BankNotFoundException, InsufficientFundsException, AccountIsblockedException {
+
+    public void createTransaction () throws BankNotFoundException, InsufficientFundsException, AccountIsblockedException {
         Scanner scanner = new Scanner(System.in);
-        User user = userHashMap.get(userId);
         System.out.println("Транзакция");
         System.out.println("Введите название вашего банка");
         String bankNameOwner = scanner.nextLine();
@@ -105,6 +112,63 @@ public class Facade {
                     BankAccount accountRecipient = bankOwner.getBankAccountById(accountIdRecipient);
                     bankAccountTransfer.transferMoney(amountTransfer, accountRecipient);
                 }
+        }
+    }
+
+    public void cancelTransaction() throws BankNotFoundException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Отмена транзакции");
+        System.out.println("Введите название банка");
+        String bankNameOwner = scanner.nextLine();
+        System.out.println("Введите номер вашего счета");
+        int accountIdOwner = scanner.nextInt();
+        System.out.println("Введите номер транзакции");
+        int transactionIdOwner = scanner.nextInt();
+        Bank bankOwner = mainBank.getBankByName(bankNameOwner);
+        System.out.println("Введите название банка получателя/ничего не вводите, если перевод внутри банка");
+        String bankNameRecipient = scanner.nextLine();
+        if (bankNameRecipient.isEmpty()) {
+            bankOwner.cancelTransaction(accountIdOwner, transactionIdOwner);
+        } else {
+            System.out.println("Введите номер счета получателя");
+            int accountIdRecipient = scanner.nextInt();
+            System.out.println("Введите номер транзакции получателя");
+            int transactionIdRecipient = scanner.nextInt();
+            MainBank.mainBank.cancelInterbankTransfer(bankNameOwner, bankNameRecipient, accountIdOwner,accountIdRecipient,transactionIdOwner, transactionIdRecipient );
+        }
+
+    }
+
+    public void createBank() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Создание банка");
+        System.out.println("Введите название");
+        String bankName = scanner.nextLine();
+        System.out.println("Введите коммисию");
+        float commission = scanner.nextFloat();
+        System.out.println("Введите процент на остаток");
+        float interestOnDeposit = scanner.nextFloat();
+        System.out.println("Введите максимальную сумму переводов/снятия для не авторизированного пользователя");
+        float maxAmountBlocked = scanner.nextFloat();
+        MainBank.mainBank.createBank(bankName, commission, interestOnDeposit, maxAmountBlocked);
+    }
+
+    public void printBanks() {
+        System.out.println("название коммисия процент");
+        MainBank.mainBank.printBanks();
+    }
+
+    public void printTransactions() throws BankNotFoundException {
+        Scanner scanner = new Scanner(System.in);
+        String bankName = scanner.nextLine();
+        Bank bank = MainBank.mainBank.getBankByName(bankName);
+        bank.printAccounts();
+    }
+    public void printUsers() {
+        System.out.println("Имя фамилия адрес паспорт Id");
+        for (int key : userHashMap.keySet()) {
+            User user = userHashMap.get(key);
+            System.out.println(user.getName() + " " + user.getLastName() + " " + user.getAddress() + " " + user.getNumberPassport() + " " + user.getId());
         }
     }
 }

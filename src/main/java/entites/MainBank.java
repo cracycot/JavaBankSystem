@@ -56,5 +56,16 @@ public class MainBank {
             return bankHashMap.get(bankName);
         } else throw new BankNotFoundException();
     }
+    public void printBanks() {
+        for (String key : bankHashMap.keySet()) {
+            Bank bank = bankHashMap.get(key);
+            System.out.print(key);
+            System.out.print(" ");
+            System.out.print(bank.getCommission());
+            System.out.print(" ");
+            System.out.print(bank.getInterestOnDeposit());
+            System.out.println();
+        }
+    }
 
 }

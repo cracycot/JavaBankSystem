@@ -17,6 +17,7 @@ public class Bank {
 
     private HashMap<Integer, BankAccount> bankAccountHashMap;
     public Bank(String name, float commission, float interestOnDeposit, float maxAmountBlocked) {
+        this.bankAccountHashMap = new HashMap<>();
         this.name = name;
         this.commission = commission;
         this.interestOnDeposit = interestOnDeposit;
@@ -91,5 +92,20 @@ public class Bank {
     public void createDepositAccount(int userId) {
         DepositAccount depositAccount = new DepositAccount(userId, maxAmountBlocked);
         bankAccountHashMap.put(depositAccount.getIdClient(), depositAccount);
+    }
+    public void printAccounts() {
+        for (int key : bankAccountHashMap.keySet()) {
+            BankAccount  bankAccount = bankAccountHashMap.get(key);
+            System.out.println("Тип счета баланс Id Id владельца");
+            if (bankAccount instanceof CreditAccount) {
+                System.out.print("Кредитный ");
+            } else if (bankAccount instanceof DebitAccount) {
+                System.out.print("Дебитовый ");
+            } else if (bankAccount instanceof DepositAccount) {
+                System.out.print("Депозитный ");
+            }
+            System.out.println(bankAccount.getBalance() + " " + bankAccount.getIdAccount() + " " + bankAccount.getIdClient());
+            bankAccount.printTransactions();
+        }
     }
 }

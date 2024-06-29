@@ -13,12 +13,40 @@ public class User {
     private boolean access;
     private String name;
     private String lastName;
-    private String address;
-    private String numberPassport;
-    private HashMap<String, ArrayList<BankAccount>> bankAccountsHashMap;
+    private String address = "";
+    private String numberPassport = "";
+    private HashMap<String, ArrayList<BankAccount>> bankAccountsHashMap = new HashMap<>();
+
+    public static int getCounterId() {
+        return counterId;
+    }
+
+    public boolean isAccess() {
+        return access;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getNumberPassport() {
+        return numberPassport;
+    }
+
+    public HashMap<String, ArrayList<BankAccount>> getBankAccountsHashMap() {
+        return bankAccountsHashMap;
+    }
 
     private void updateAccess() {
-        access = !(address.equals("") || numberPassport.equals(""));
+        access = !(address.isEmpty() || numberPassport.isEmpty());
         for (String key : bankAccountsHashMap.keySet()) {
             ArrayList<BankAccount> bankAccounts = bankAccountsHashMap.get(key);
             for (BankAccount bankAccount : bankAccounts) {

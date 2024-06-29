@@ -63,6 +63,21 @@ public abstract class BankAccount {
       } else throw new InsufficientFundsException();
    }
 
+   public void printTransactions() {
+      System.out.println("Тип Сумма Id");
+      for (int key : transactions.keySet()) {
+         Transaction transaction = transactions.get(key);
+         if (transaction instanceof AddMoney) {
+            System.out.print("Пополнение ");
+         } else if (transaction instanceof WithdrawMoney) {
+            System.out.print("Снятие ");
+         } else if (transaction instanceof  TransferMoney) {
+            System.out.print("Перевод ");
+         }
+         System.out.println(transaction.getOperationSum() + " " + transaction.getId());
+      }
+   }
+
    public float getBalance() {
       return balance;
    }
@@ -84,6 +99,8 @@ public abstract class BankAccount {
    public void setIdClient(int idClient) {
       this.idClient = idClient;
    }
+
+   public int getIdAccount() { return idAccount; }
 
    public void addCommision() {
       balance += commissionAmount;
