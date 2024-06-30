@@ -8,18 +8,47 @@ import entites.transactions.Transaction;
 
 import java.util.HashMap;
 
+/**
+ * Класс позволяет управлять банковской системой
+ */
 public class MainBank {
-    public static final MainBank mainBank = new MainBank(); // Singleton
+
+    /**
+     * Singleton
+     */
+    public static final MainBank mainBank = new MainBank();
+    /**
+     * Поле содержащие все доступные банки
+     */
     private HashMap<String, Bank> bankHashMap;
 
-    private MainBank() { // Приватный конструктор
+    private MainBank() {
         bankHashMap = new HashMap<>();
     }
 
+    /**
+     * Создание банка (добавление в банковскую систему)
+     * @param Name
+     * @param commission
+     * @param interestOnDeposit (процент на остаток)
+     * @param maxAmountBlocked (макс сумма доступная к снятию/переводу для неавторизованного пользователя)
+     * @param creditLimit (макс сумма кредита)
+     */
     public void createBank(String Name, float commission, float interestOnDeposit, float maxAmountBlocked, float creditLimit) {
         Bank bank = new Bank(Name, commission, interestOnDeposit, maxAmountBlocked, creditLimit);
         bankHashMap.put(Name, bank);
     }
+
+    /**
+     * Межбанковский перевод
+     * @param bankFirstName
+     * @param bankSecondName
+     * @param idFirstAccount
+     * @param idSecondAccount
+     * @param amount
+     * @throws InsufficientFundsException (недостаточно средств)
+     * @throws AccountIsBlockedException (превышение лимита для аккаунта)
+     */
     public void interbankTransfer(String bankFirstName, String bankSecondName, int idFirstAccount, int idSecondAccount, float amount) throws InsufficientFundsException, AccountIsBlockedException {
         Bank firstBank = bankHashMap.get(bankFirstName);
         Bank secondBank = bankHashMap.get(bankSecondName);
@@ -28,6 +57,16 @@ public class MainBank {
         firstBankAccount.withdrawMoney(amount);
         secondBankAccount.addMoney(amount);
     }
+
+    /**
+     * Отмена межбанковского перевода
+     * @param bankFirstName
+     * @param bankSecondName
+     * @param idFirstAccount
+     * @param idSecondAccount
+     * @param idFirstTransaction
+     * @param idSecondTransaction
+     */
     public void cancelInterbankTransfer(String bankFirstName, String bankSecondName,  int idFirstAccount, int idSecondAccount, int idFirstTransaction, int idSecondTransaction) {
         Bank firstBank = bankHashMap.get(bankFirstName);
         Bank secondBank = bankHashMap.get(bankSecondName);
@@ -38,6 +77,11 @@ public class MainBank {
         firstTransaction.cancelTransaction();
         secondTransaction.cancelTransaction();
     }
+
+    /**
+     * Сообщение банкам начислить проценты по дням
+     * @param days
+     */
     // можно подвязать kafka
     public void interestUpdate(int days) {
         for (String bankName : bankHashMap.keySet()) {
@@ -51,11 +95,22 @@ public class MainBank {
             bank.interestUpdate(0);
         }
     }
+
+    /**
+     * Получить банк
+     * @param bankName
+     * @return
+     * @throws BankNotFoundException (банка не существует)
+     */
     public Bank getBankByName(String bankName) throws BankNotFoundException {
         if (bankHashMap.containsKey(bankName)) {
             return bankHashMap.get(bankName);
         } else throw new BankNotFoundException();
     }
+
+    /**
+     * Вывод всех бакнов
+     */
     public void printBanks() {
         for (String key : bankHashMap.keySet()) {
             Bank bank = bankHashMap.get(key);

@@ -9,6 +9,9 @@ import entites.transactions.WithdrawMoney;
 
 import java.util.HashMap;
 
+/**
+ * Абстрактный класс для реализации счетов
+ */
 public abstract class BankAccount {
 
    protected static int counterIdAccount = 0;
@@ -32,15 +35,28 @@ public abstract class BankAccount {
       this.transactions = new HashMap<>();
    }
 
+   /**
+    * Отмена ограничений на счете
+    */
    public void updateBlocked() {
       isBlocked = false;
    }
 
+   /**
+    * Пополнение
+    * @param amount
+    */
    public void addMoney(float amount) { // add money используется как функция отмены
       AddMoney addBalance = new AddMoney(this, amount);
       transactions.put(addBalance.getId(), addBalance);
    }
 
+   /**
+    * Снятие
+    * @param amount
+    * @throws InsufficientFundsException (недостаточно средств)
+    * @throws AccountIsBlockedException (превышена сумма перевода (пользователь не завершил регистрацию))
+    */
    public void withdrawMoney(float amount) throws InsufficientFundsException, AccountIsBlockedException {
       if (amount <= balance) {
          if (!isBlocked || amount <= maxAmountBlocked) {
@@ -51,6 +67,13 @@ public abstract class BankAccount {
       } else throw new InsufficientFundsException();
    }
 
+   /**
+    * Перевод
+    * @param amount
+    * @param secondBank
+    * @throws InsufficientFundsException (недостаточно средств)
+    * @throws AccountIsBlockedException (превышена сумма перевода (пользователь не завершил регистрацию))
+    */
    public void transferMoney(float amount, BankAccount secondBank) throws InsufficientFundsException, AccountIsBlockedException {
       if (amount <= balance) {
          if (!isBlocked || amount <= maxAmountBlocked) {
@@ -61,6 +84,9 @@ public abstract class BankAccount {
       } else throw new InsufficientFundsException();
    }
 
+   /**
+    * Вывод транзакций
+    */
    public void printTransactions() {
       System.out.println("Тип Сумма Id");
       for (int key : transactions.keySet()) {

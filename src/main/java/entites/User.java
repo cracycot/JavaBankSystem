@@ -7,6 +7,10 @@ import entites.exceptions.BankNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Класс пользователь
+ */
+
 public class User {
     private static int counterId = 0;
     private int id;
@@ -41,10 +45,9 @@ public class User {
         return numberPassport;
     }
 
-    public HashMap<String, ArrayList<BankAccount>> getBankAccountsHashMap() {
-        return bankAccountsHashMap;
-    }
-
+    /**
+     * Обновить статус аккаунта на заполненный
+     */
     private void updateAccess() {
         access = !(address.isEmpty() || numberPassport.isEmpty());
         for (String key : bankAccountsHashMap.keySet()) {
@@ -54,6 +57,10 @@ public class User {
             }
         }
     }
+
+    /**
+     * Builder  с обязательными параметрами имени и фамилии
+     */
 
     public static class Builder {
         public static  User user;
@@ -86,16 +93,29 @@ public class User {
 
     }
 
+    /**
+     * Создание дебетового счета
+     * @param bankName
+     * @throws BankNotFoundException (Банк не найден)
+     */
     public void createDebitAccount(String bankName) throws BankNotFoundException {
         Bank bank = MainBank.mainBank.getBankByName(bankName);
         bank.createDebitAccount(id);
     }
-
+    /**
+     * Создание кредитного счета
+     * @param bankName
+     * @throws BankNotFoundException (Банк не найден)
+     */
     public void createCreditAccount(String bankName) throws BankNotFoundException {
         Bank bank = MainBank.mainBank.getBankByName(bankName);
         bank.createCreditAccount(id);
     }
-
+    /**
+     * Создание депозитного счета
+     * @param bankName
+     * @throws BankNotFoundException (Банк не найден)
+     */
     public void createDepositAccount(String bankName) throws BankNotFoundException {
         Bank bank = MainBank.mainBank.getBankByName(bankName);
         bank.createDepositAccount(id);

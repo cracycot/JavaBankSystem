@@ -2,6 +2,9 @@ package entites.transactions;
 
 import java.util.HashMap;
 
+/**
+ * Абстрактный класс транзакции
+ */
 public abstract class Transaction {
     protected  float operationSum = 0;
     private static int counterId = 0;

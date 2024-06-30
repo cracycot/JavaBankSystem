@@ -10,6 +10,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Фасад
+ */
 public class Facade {
     MainBank mainBank;
     private HashMap<Integer, User> userHashMap = new HashMap<>();
@@ -19,6 +22,9 @@ public class Facade {
 
     }
 
+    /**
+     * Механизм ускорения время
+     */
     public void startTimer() {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
