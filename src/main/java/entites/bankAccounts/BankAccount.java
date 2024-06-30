@@ -1,6 +1,6 @@
 package entites.bankAccounts;
 
-import entites.exceptions.AccountIsblockedException;
+import entites.exceptions.AccountIsBlockedException;
 import entites.exceptions.InsufficientFundsException;
 import entites.transactions.AddMoney;
 import entites.transactions.Transaction;
@@ -29,6 +29,7 @@ public abstract class BankAccount {
       this.commissionAmount = 0;
       this.maxAmountBlocked = maxAmountBlocked;
       this.idClient = idClient;
+      this.transactions = new HashMap<>();
    }
 
    public void updateBlocked() {
@@ -36,30 +37,27 @@ public abstract class BankAccount {
    }
 
    public void addMoney(float amount) { // add money используется как функция отмены
-      AddMoney addBalance = new AddMoney();
-      addBalance.addMoney(this, amount);
+      AddMoney addBalance = new AddMoney(this, amount);
       transactions.put(addBalance.getId(), addBalance);
    }
 
-   public void withdrawMoney(float amount) throws InsufficientFundsException, AccountIsblockedException {
+   public void withdrawMoney(float amount) throws InsufficientFundsException, AccountIsBlockedException {
       if (amount <= balance) {
-         if (!isBlocked) {
-            WithdrawMoney withdrawBalance = new WithdrawMoney();
-            withdrawBalance.withdrawMoney(this, amount);
+         if (!isBlocked || amount <= maxAmountBlocked) {
+            WithdrawMoney withdrawBalance = new WithdrawMoney(this, amount);
             transactions.put(withdrawBalance.getId(), withdrawBalance);
             balance -= amount;
-         } else throw new AccountIsblockedException();
+         } else throw new AccountIsBlockedException();
       } else throw new InsufficientFundsException();
    }
 
-   public void transferMoney(float amount, BankAccount secondBank) throws InsufficientFundsException, AccountIsblockedException {
+   public void transferMoney(float amount, BankAccount secondBank) throws InsufficientFundsException, AccountIsBlockedException {
       if (amount <= balance) {
-         if (!isBlocked) {
-            TransferMoney transferBalance = new TransferMoney();
-            transferBalance.transferMoney(this, secondBank, amount);
+         if (!isBlocked || amount <= maxAmountBlocked) {
+            TransferMoney transferBalance = new TransferMoney(this, secondBank, amount);
             transactions.put(transferBalance.getId(), transferBalance);
             balance -= amount;
-         } else throw new AccountIsblockedException();
+         } else throw new AccountIsBlockedException();
       } else throw new InsufficientFundsException();
    }
 

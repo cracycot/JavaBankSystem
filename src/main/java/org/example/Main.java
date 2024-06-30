@@ -1,14 +1,14 @@
 package org.example;
 
 import entites.Facade;
-import entites.exceptions.AccountIsblockedException;
+import entites.exceptions.AccountIsBlockedException;
 import entites.exceptions.BankNotFoundException;
 import entites.exceptions.InsufficientFundsException;
 
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws BankNotFoundException, InsufficientFundsException, AccountIsblockedException {
+    public static void main(String[] args) throws BankNotFoundException, InsufficientFundsException, AccountIsBlockedException {
         int userId = -1;
         while (true) {
             Scanner scanner = new Scanner(System.in);

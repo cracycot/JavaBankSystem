@@ -5,16 +5,17 @@ import entites.transactions.Transaction;
 
 public class AddMoney extends Transaction {
     private BankAccount account;
-    public void addMoney(BankAccount account, float amount) {
+    public AddMoney(BankAccount account, float amount) {
         this.operationSum = amount;
         this.account = account;
         account.addBalance(amount);
     }
     @Override
-    public void cancelTransaction() {
+    public boolean cancelTransaction() {
         if (!canceled) {
             account.addBalance(-operationSum);
             canceled = true;
         }
+        return canceled;
     }
 }

@@ -13,15 +13,17 @@ public class Bank {
     private float commission;
     private float interestOnDeposit;
     private float maxAmountBlocked;
+    private float creditLimit;
 
 
     private HashMap<Integer, BankAccount> bankAccountHashMap;
-    public Bank(String name, float commission, float interestOnDeposit, float maxAmountBlocked) {
+    public Bank(String name, float commission, float interestOnDeposit, float maxAmountBlocked, float creditLimit) {
         this.bankAccountHashMap = new HashMap<>();
         this.name = name;
         this.commission = commission;
         this.interestOnDeposit = interestOnDeposit;
         this.maxAmountBlocked = maxAmountBlocked;
+        this.creditLimit = creditLimit;
     }
 
     public BankAccount getBankAccountById (int idBankAccount) {

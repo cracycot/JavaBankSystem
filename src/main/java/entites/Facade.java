@@ -1,6 +1,6 @@
 package entites;
 import entites.bankAccounts.BankAccount;
-import entites.exceptions.AccountIsblockedException;
+import entites.exceptions.AccountIsBlockedException;
 import entites.exceptions.BankNotFoundException;
 import entites.exceptions.InsufficientFundsException;
 
@@ -73,12 +73,13 @@ public class Facade {
         }
     }
 
-    public void createTransaction () throws BankNotFoundException, InsufficientFundsException, AccountIsblockedException {
+    public void createTransaction () throws BankNotFoundException, InsufficientFundsException, AccountIsBlockedException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Транзакция");
         System.out.println("Введите название вашего банка");
         String bankNameOwner = scanner.nextLine();
-        Bank bankOwner = mainBank.getBankByName(bankNameOwner);
+        System.out.println(bankNameOwner.equals("Tinkoff"));
+        Bank bankOwner = MainBank.mainBank.getBankByName(bankNameOwner);
         System.out.println("Введите номер вашего счета");
         int accountId = scanner.nextInt();
         System.out.println("Введите тип транзакции 1 - пополнить счет; 2 - снять деньги; 3 - выполнить перевод");
@@ -150,7 +151,9 @@ public class Facade {
         float interestOnDeposit = scanner.nextFloat();
         System.out.println("Введите максимальную сумму переводов/снятия для не авторизированного пользователя");
         float maxAmountBlocked = scanner.nextFloat();
-        MainBank.mainBank.createBank(bankName, commission, interestOnDeposit, maxAmountBlocked);
+        System.out.println("Введите максимальную кредитный лимит");
+        float creditLimit = scanner.nextFloat();
+        MainBank.mainBank.createBank(bankName, commission, interestOnDeposit, maxAmountBlocked, creditLimit);
     }
 
     public void printBanks() {
@@ -159,6 +162,8 @@ public class Facade {
     }
 
     public void printTransactions() throws BankNotFoundException {
+        System.out.println("Вывод транзакций");
+        System.out.println("Введите название банка");
         Scanner scanner = new Scanner(System.in);
         String bankName = scanner.nextLine();
         Bank bank = MainBank.mainBank.getBankByName(bankName);

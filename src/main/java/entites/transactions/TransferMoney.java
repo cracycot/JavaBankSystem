@@ -6,7 +6,7 @@ import entites.transactions.Transaction;
 public class TransferMoney extends Transaction {
     private BankAccount AccountFirst;
     private BankAccount AccountSecond;
-    public void transferMoney(BankAccount AccountFirst, BankAccount AccountSecond, float amount) {
+    public TransferMoney(BankAccount AccountFirst, BankAccount AccountSecond, float amount) {
         this.operationSum = amount;
         this.AccountFirst = AccountFirst;
         this.AccountSecond = AccountSecond;
@@ -14,11 +14,12 @@ public class TransferMoney extends Transaction {
         AccountSecond.addBalance(amount);
     }
     @Override
-    public void cancelTransaction() {
+    public boolean  cancelTransaction() {
         if (!canceled) {
             AccountFirst.addBalance(operationSum);
             AccountSecond.addBalance(-operationSum);
             canceled = true;
         }
+        return canceled;
     }
 }

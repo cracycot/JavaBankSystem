@@ -1,7 +1,7 @@
 package entites;
 
 import entites.bankAccounts.BankAccount;
-import entites.exceptions.AccountIsblockedException;
+import entites.exceptions.AccountIsBlockedException;
 import entites.exceptions.BankNotFoundException;
 import entites.exceptions.InsufficientFundsException;
 import entites.transactions.Transaction;
@@ -16,11 +16,11 @@ public class MainBank {
         bankHashMap = new HashMap<>();
     }
 
-    public void createBank(String Name, float commission, float interestOnDeposit, float maxAmountBlocked) {
-        Bank bank = new Bank(Name, commission, interestOnDeposit, maxAmountBlocked);
+    public void createBank(String Name, float commission, float interestOnDeposit, float maxAmountBlocked, float creditLimit) {
+        Bank bank = new Bank(Name, commission, interestOnDeposit, maxAmountBlocked, creditLimit);
         bankHashMap.put(Name, bank);
     }
-    public void interbankTransfer(String bankFirstName, String bankSecondName, int idFirstAccount, int idSecondAccount, float amount) throws InsufficientFundsException, AccountIsblockedException {
+    public void interbankTransfer(String bankFirstName, String bankSecondName, int idFirstAccount, int idSecondAccount, float amount) throws InsufficientFundsException, AccountIsBlockedException {
         Bank firstBank = bankHashMap.get(bankFirstName);
         Bank secondBank = bankHashMap.get(bankSecondName);
         BankAccount firstBankAccount = firstBank.getBankAccountById(idFirstAccount);
