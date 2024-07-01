@@ -35,7 +35,7 @@ public class CreditAccount extends BankAccount {
             } else throw new AccountIsBlockedException();
         } else throw new InsufficientFundsException();
     }
-    
+
     @Override
     public void updateCommissionAmount(int days) {
         if (balance < 0) {

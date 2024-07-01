@@ -30,6 +30,7 @@ public class Facade {
         scheduler.scheduleAtFixedRate(() -> {
             mainBank.interestUpdate();
         }, 0, 10, TimeUnit.SECONDS);
+        System.out.println("Начислены проценты");
     }
 
     public int createUser() {
