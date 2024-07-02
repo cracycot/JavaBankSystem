@@ -15,9 +15,9 @@ public class BankAccountTest {
 
     @BeforeEach
     void createBankAccount() {
-         bankAccount = new DebitAccount(0, 10000);
+         bankAccount = new DebitAccount(0, 10000, 3);
          bankAccount.addMoney(20000);
-         creditAccount = new CreditAccount(0, 10000, 15000);
+         creditAccount = new CreditAccount(0, 10000, 15000, 3);
          creditAccount.addMoney(1000);
          creditAccount.updateBlocked();
     }

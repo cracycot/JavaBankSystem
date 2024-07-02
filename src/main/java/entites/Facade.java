@@ -28,9 +28,12 @@ public class Facade {
     public void startTimer() {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(() -> {
-            mainBank.interestUpdate();
+            MainBank.mainBank.interestUpdate();
         }, 0, 10, TimeUnit.SECONDS);
-        System.out.println("Начислены проценты");
+
+        scheduler.scheduleAtFixedRate(() -> {
+            MainBank.mainBank.addCommission();
+        }, 0, 70, TimeUnit.SECONDS);
     }
 
     public int createUser() {
@@ -78,6 +81,7 @@ public class Facade {
             case 3:
                 user.createDepositAccount(bankName);
         }
+
     }
 
     public void createTransaction () throws BankNotFoundException, InsufficientFundsException, AccountIsBlockedException {
@@ -85,7 +89,6 @@ public class Facade {
         System.out.println("Транзакция");
         System.out.println("Введите название вашего банка");
         String bankNameOwner = scanner.nextLine();
-        System.out.println(bankNameOwner.equals("Tinkoff"));
         Bank bankOwner = MainBank.mainBank.getBankByName(bankNameOwner);
         System.out.println("Введите номер вашего счета");
         int accountId = scanner.nextInt();
@@ -97,6 +100,7 @@ public class Facade {
                 float amountAdd = scanner.nextFloat();
                 BankAccount accountAdd = bankOwner.getBankAccountById(accountId);
                 accountAdd.addMoney(amountAdd);
+                System.out.println(accountAdd.getInterestBalance());
                 break;
             case 2:
                 System.out.println("Введите сумму снятия");

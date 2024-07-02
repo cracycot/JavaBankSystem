@@ -13,7 +13,7 @@ public class TransactionTest {
 
     @BeforeEach
     void makeTransaction() {
-        BankAccount bankAccount = new DebitAccount(0, 10000);
+        BankAccount bankAccount = new DebitAccount(0, 10000, 3);
         transaction = new AddMoney(bankAccount, 100000);
     }
 

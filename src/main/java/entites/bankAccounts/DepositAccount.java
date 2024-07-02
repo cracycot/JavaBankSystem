@@ -3,9 +3,9 @@ package entites.bankAccounts;
 public class DepositAccount extends BankAccount{
 
 
-    public DepositAccount(int idClient, float maxAmountBlocked) {
+    public DepositAccount(int idClient, float maxAmountBlocked, float interestBalance) {
         super(idClient,
-                maxAmountBlocked);
+                maxAmountBlocked, interestBalance);
     }
 
     @Override

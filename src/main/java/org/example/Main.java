@@ -9,13 +9,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws BankNotFoundException, InsufficientFundsException, AccountIsBlockedException {
-
-        Runnable timeMachine = () -> {
-            Facade.facade.startTimer();
-        };
         Runnable checkInterface = () -> {
             int userId = -1;
             while (true) {
+                System.out.println(Thread.currentThread());
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("нажмите 1 чтобы создать пользователя 2 чтобы создать счет 3 чтобы создать транзакцию 4 для отмены транзакции 5 чтобы создать банк 6 для вывода банков 7 для вывода транзакций 8 для вывода пользователей");
                 int flag = scanner.nextInt();
@@ -67,10 +64,8 @@ public class Main {
                 }
             }
         };
-        Thread thread0 = new Thread(timeMachine);
         Thread thread1 = new Thread(checkInterface);
-        thread0.start();
+        Facade.facade.startTimer();
         thread1.start();
-
     }
 }

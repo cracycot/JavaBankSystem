@@ -79,7 +79,7 @@ public class Bank {
         }
     }
     public void interestUpdate() {
-        for (Integer idAccount : bankAccountHashMap.keySet()) {
+        for (int idAccount : bankAccountHashMap.keySet()) {
             BankAccount account = bankAccountHashMap.get(idAccount);
             account.updateCommissionAmount(1);
         }
@@ -87,7 +87,7 @@ public class Bank {
     public void addCommision() {
         for (Integer idAccount : bankAccountHashMap.keySet()) {
             BankAccount account = bankAccountHashMap.get(idAccount);
-            account.addCommision();
+            account.addCommission();
         }
     }
 
@@ -107,17 +107,17 @@ public class Bank {
      * @param userId
      */
     public void createDebitAccount(int userId) {
-        DebitAccount debitAccount = new DebitAccount(userId, maxAmountBlocked);
+        DebitAccount debitAccount = new DebitAccount(userId, maxAmountBlocked, interestOnDeposit);
         bankAccountHashMap.put(debitAccount.getIdClient(), debitAccount);
     }
 
     public void createCreditAccount(int userId) {
-        CreditAccount creditAccount = new CreditAccount(userId, maxAmountBlocked, commission);
+        CreditAccount creditAccount = new CreditAccount(userId, maxAmountBlocked, commission, commission );
         bankAccountHashMap.put(creditAccount.getIdClient(), creditAccount);
     }
 
     public void createDepositAccount(int userId) {
-        DepositAccount depositAccount = new DepositAccount(userId, maxAmountBlocked);
+        DepositAccount depositAccount = new DepositAccount(userId, maxAmountBlocked,  interestOnDeposit);
         bankAccountHashMap.put(depositAccount.getIdClient(), depositAccount);
     }
 
@@ -127,7 +127,7 @@ public class Bank {
     public void printAccounts() {
         for (int key : bankAccountHashMap.keySet()) {
             BankAccount  bankAccount = bankAccountHashMap.get(key);
-            System.out.println("Тип счета баланс Id Id владельца");
+            System.out.println("Тип счета баланс Id Id владельца сумма неначисленных процентов");
             if (bankAccount instanceof CreditAccount) {
                 System.out.print("Кредитный ");
             } else if (bankAccount instanceof DebitAccount) {
@@ -135,7 +135,7 @@ public class Bank {
             } else if (bankAccount instanceof DepositAccount) {
                 System.out.print("Депозитный ");
             }
-            System.out.println(bankAccount.getBalance() + " " + bankAccount.getIdAccount() + " " + bankAccount.getIdClient());
+            System.out.println(bankAccount.getBalance() + " " + bankAccount.getIdAccount() + " " + bankAccount.getIdClient() + " " + bankAccount.getCommissionAmount());
             bankAccount.printTransactions();
         }
     }

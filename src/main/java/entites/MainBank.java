@@ -92,7 +92,15 @@ public class MainBank {
     public void interestUpdate() {
         for (String bankName : bankHashMap.keySet()) {
             Bank bank = bankHashMap.get(bankName);
-            bank.interestUpdate(0);
+            bank.interestUpdate();
+        }
+//        System.out.println("EndUpdate");
+    }
+
+    public void addCommission() {
+        for (String bankName : bankHashMap.keySet()) {
+            Bank bank = bankHashMap.get(bankName);
+            bank.addCommision();
         }
     }
 

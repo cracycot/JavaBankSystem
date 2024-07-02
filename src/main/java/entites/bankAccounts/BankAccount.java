@@ -24,13 +24,14 @@ public abstract class BankAccount {
    protected float maxAmountBlocked;
    protected HashMap<Integer, Transaction> transactions;
 
-   public BankAccount(int idClient, float maxAmountBlocked) {
+   public BankAccount(int idClient, float maxAmountBlocked, float interestBalance) {
       isBlocked = true;
       idAccount = counterIdAccount;
       counterIdAccount += 1;
       this.balance = 0;
       this.commissionAmount = 0;
       this.maxAmountBlocked = maxAmountBlocked;
+      this.interestBalance = interestBalance;
       this.idClient = idClient;
       this.transactions = new HashMap<>();
    }
@@ -126,8 +127,13 @@ public abstract class BankAccount {
 
    public int getIdAccount() { return idAccount; }
 
-   public void addCommision() {
-      balance += commissionAmount;
+   public void addCommission() {
+      addMoney(commissionAmount);
+      commissionAmount = 0;
+   }
+
+   public float getCommissionAmount() {
+      return commissionAmount;
    }
 
    public Transaction getTransaction(int id) {
