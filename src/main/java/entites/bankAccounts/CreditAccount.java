@@ -20,7 +20,7 @@ public class CreditAccount extends BankAccount {
             if (!isBlocked || amount <= maxAmountBlocked) {
                 WithdrawMoney withdrawBalance = new WithdrawMoney(this, amount);
                 transactions.put(withdrawBalance.getId(), withdrawBalance);
-                balance -= amount;
+                addBalance(-amount);
             } else throw new AccountIsBlockedException();
         } else throw new InsufficientFundsException();
     }

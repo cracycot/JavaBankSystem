@@ -63,7 +63,7 @@ public abstract class BankAccount {
          if (!isBlocked || amount <= maxAmountBlocked) {
             WithdrawMoney withdrawBalance = new WithdrawMoney(this, amount);
             transactions.put(withdrawBalance.getId(), withdrawBalance);
-            balance -= amount;
+            addBalance(-amount);
          } else throw new AccountIsBlockedException();
       } else throw new InsufficientFundsException();
    }
@@ -80,7 +80,7 @@ public abstract class BankAccount {
          if (!isBlocked || amount <= maxAmountBlocked) {
             TransferMoney transferBalance = new TransferMoney(this, secondBank, amount);
             transactions.put(transferBalance.getId(), transferBalance);
-            balance -= amount;
+            addBalance(-amount);
          } else throw new AccountIsBlockedException();
       } else throw new InsufficientFundsException();
    }
@@ -107,7 +107,13 @@ public abstract class BankAccount {
       return balance;
    }
 
-   public void addBalance(float balance) { this.balance += balance; }
+
+   /**
+    * Все операуии работают через addBalance во избежании состояния гонки
+    * @param balance
+    */
+
+   public synchronized void addBalance(float balance) { this.balance += balance; }
 
    public float getInterestBalance() {
       return interestBalance;
